@@ -140,6 +140,21 @@ public class Picture extends SimplePicture
         }
     }
 
+    public void grayscaleLum()
+    {
+        Pixel[][] pixels = this.getPixels2D();
+        for (Pixel[] rowArray : pixels)
+        {
+            for (Pixel pixelObj : rowArray)
+            {
+                int avg = (int)(pixelObj.getRed()*0.21+pixelObj.getGreen()*0.72+pixelObj.getBlue()*0.07);
+                pixelObj.setRed(avg);
+                pixelObj.setGreen(avg);
+                pixelObj.setBlue(avg);
+            }
+        }
+    }
+
     public void fixUnderwater()
     {
         Pixel[][] pixels = this.getPixels2D();
@@ -179,6 +194,7 @@ public class Picture extends SimplePicture
             }
         } 
     }
+
     /** Method that mirrors the picture around a 
      * vertical mirror in the center of the picture
      * from right to left */
@@ -198,6 +214,7 @@ public class Picture extends SimplePicture
             }
         } 
     }
+
     public void mirrorHorizontal()
     {
         Pixel[][] pixels = this.getPixels2D();
@@ -213,6 +230,7 @@ public class Picture extends SimplePicture
             }
         } 
     }
+
     public void mirrorHorizontalBotToTop()
     {
         Pixel[][] pixels = this.getPixels2D();
@@ -228,6 +246,7 @@ public class Picture extends SimplePicture
             }
         } 
     }
+
     public void mirrorDiagonal()
     {
         Pixel[][] pixels = this.getPixels2D();
@@ -269,6 +288,7 @@ public class Picture extends SimplePicture
         }
         System.out.println("The loop ran "+count+" times.");
     }
+
     public void mirrorSeagull()
     {
         int mirrorPoint = 368;
@@ -293,6 +313,7 @@ public class Picture extends SimplePicture
         }
         System.out.println("The loop ran "+count+" times.");
     }
+
     public void mirrorSnowman()
     {
         int mirrorPointL = 191;
@@ -360,6 +381,29 @@ public class Picture extends SimplePicture
         }   
     }
 
+    public void cropAndCopy( Picture sourcePicture, int startSourceRow, int endSourceRow, int startSourceCol, int endSourceCol,
+    int startDestRow, int startDestCol )
+    {
+        Pixel fromPixel = null;
+        Pixel toPixel = null;
+        Pixel[][] toPixels = this.getPixels2D();
+        Pixel[][] fromPixels = sourcePicture.getPixels2D();
+        for (int fromRow = startSourceRow, toRow = startDestRow; 
+        fromRow < endSourceRow; 
+        fromRow++, toRow++)
+        {
+            for (int fromCol = startSourceCol, toCol = startDestCol; 
+            fromCol < endSourceCol;  
+            fromCol++, toCol++)
+            {
+                fromPixel = fromPixels[fromRow][fromCol];
+                toPixel = toPixels[toRow][toCol];
+                toPixel.setColor(fromPixel.getColor());
+            }
+        }  
+
+    }
+
     /** Method to create a collage of several pictures */
     public void createCollage()
     {
@@ -401,6 +445,49 @@ public class Picture extends SimplePicture
                     leftPixel.setColor(Color.WHITE);
             }
         }
+    }
+
+    public void scaleDown(double percentage)
+    {
+        if(percentage>=1.00)
+        {
+            return;
+        }
+        Pixel[][] pixels = this.getPixels2D();
+        Pixel[][] copyPix;
+        Pixel[][] newPix = new Pixel[pixels.length/2][pixels[0].length/2];
+        int width = pixels[0].length;
+        int scale = (int)(1.00/percentage);
+        for (int row = scale-1; row < pixels.length; row++)
+        {
+            for (int col = 0; col < width; col++)
+            {
+                copyPix[row][col] = pixels[row][col];
+            }
+        }
+        
+        for (int row = scale-1; row < pixels.length/scale; row++)
+        {
+            for (int col = scale-1; col < width/scale; col++)
+            {
+                int r,g,b;
+                r=g=b=0;
+                for(int i = 0;i<scale;i++)
+                {
+                    r+=pixels[row-i][col-i].getRed();
+                    g+=pixels[row-i][col-i].getGreen();
+                    b+=pixels[row-i][col-i].getBlue();
+                }
+                r/=scale;
+                g/=scale;
+                b/=scale;
+                newPix[row][col].setRed(r);
+                newPix[row][col].setGreen(g);
+                newPix[row][col].setBlue(b);
+                
+            }
+        }
+        this.getPixels2D()= newPix;
     }
 
     /* Main method for testing - each class in Java can have a main 

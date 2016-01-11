@@ -37,6 +37,13 @@ public class PictureTester
     beach.grayscale();
     beach.explore();
   }
+  public static void testGrayscaleLum()
+  {
+    Picture beach = new Picture("beach.jpg");
+    beach.explore();
+    beach.grayscaleLum();
+    beach.explore();
+  }
    public static void testFixUnderwater()
   {
     Picture beach = new Picture("water.jpg");
@@ -118,6 +125,13 @@ public class PictureTester
     Picture swan = new Picture("swan.jpg");
     swan.edgeDetection(10);
     swan.explore();
+  }
+  public static void testCropAndCopy()
+  {
+    Picture picture1 = new Picture("swan.jpg");
+    Picture picture2 = new Picture("beach.jpg");
+    picture2.cropAndCopy( picture1, 10, 100, 20, 200, 30, 40 );
+    picture2.explore();
   }
   
   /** Main method for testing.  Every class can have a main
