@@ -133,6 +133,12 @@ public class PictureTester
     picture2.cropAndCopy( picture1, 10, 100, 20, 200, 30, 40 );
     picture2.explore();
   }
+  public static void testScaleDown()
+  {
+    Picture swan = new Picture("swan.jpg");
+    swan.scaleDown(0.75);
+    swan.explore();
+  }
   
   /** Main method for testing.  Every class can have a main
     * method in Java */
