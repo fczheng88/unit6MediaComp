@@ -447,7 +447,7 @@ public class Picture extends SimplePicture
         }
     }
 
-    public void scaleDown(double percentage)
+    public void scaleDownRemPix(double percentage)
     {   Pixel[][] pixels = this.getPixels2D();
         double scale = 1/percentage;
         int lastr,lastc;
@@ -476,7 +476,59 @@ public class Picture extends SimplePicture
             }
         }
     }
-
+public void scaleDownBoxing(double percentage)
+    {   Pixel[][] pixels = this.getPixels2D();
+        double scale = 1/percentage;
+        Pixel[][] changedArr = new Pixel[(int)(pixels.length/scale)][(int)(pixels[0].length/scale)];
+        for(Pixel[] row:pixels)
+        {
+            for(Pixel pix:row)
+            {
+                pix = pixels[0][0];
+            }
+        }
+        int lastr,lastc;
+        lastr=lastc=0;
+        for (int row = 0; row*scale < pixels.length; row++)
+        {
+            for (int col = 0; col*scale < pixels[0].length; col++)
+            {
+                int r, g, b;
+                r=g=b=0;
+                for(int i=0;i<scale;i++)
+                {
+                    r+=pixels[row+i][col].getRed()
+                    r+=pixels[row][col+i].getRed()
+                }
+                changedArr[row][col].setRed();
+                changedArr[row][col].setGreen();
+                changedArr[row][col].setBlue();
+                lastr=row;
+                lastc=col;
+            }
+        }
+        for (int row = 0; row*scale < changedArr.length; row++)
+        {
+            for (int col = 0; col*scale < changedArr[0].length; col++)
+            {
+                pixels[row][col].setColor(changedArr[row][col].getColor());
+            }
+        }
+        for (int row = 0; row <= lastr; row++)
+        {
+            for (int col = lastc; col < pixels[0].length; col++)
+            {
+                pixels[row][col].setColor(Color.WHITE);
+            }
+        }
+        for (int row = lastr; row < pixels.length; row++)
+        {
+            for (int col = 0; col < pixels[0].length; col++)
+            {
+                pixels[row][col].setColor(Color.WHITE);
+            }
+        }
+    }
     /* Main method for testing - each class in Java can have a main 
      * method 
      */
