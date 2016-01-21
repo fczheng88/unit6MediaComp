@@ -116,6 +116,17 @@ public class ColorCalc
         int avg = (color1.getGreen()+color1.getBlue()+color1.getRed())/3;
         return new Color(avg, avg, avg);
     }
+    public Color grayToBlack()
+    {
+        if(color2!=null)
+        {
+            System.out.println("Too many colors!");
+            return null;
+        }
+        int avg = (color1.getGreen()+color1.getBlue()+color1.getRed())/3;
+        if(avg<150)avg=0;
+        return new Color(avg, avg, avg);
+    }
 
     public Color averageColors()
     {

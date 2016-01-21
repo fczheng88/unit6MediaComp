@@ -175,7 +175,6 @@ public class Picture extends SimplePicture
             }
         }
     }
-
     public void grayscaleLum()
     {
         Pixel[][] pixels = this.getPixels2D();
@@ -185,6 +184,18 @@ public class Picture extends SimplePicture
             {
                 ColorCalc calc = new ColorCalc(pixelObj.getColor());
                 pixelObj.setColor(calc.lumGrayScale());
+            }
+        }
+    }
+    public void grayToBlack()
+    {
+        Pixel[][] pixels = this.getPixels2D();
+        for (Pixel[] rowArray : pixels)
+        {
+            for (Pixel pixelObj : rowArray)
+            {
+                ColorCalc calc = new ColorCalc(pixelObj.getColor());
+                pixelObj.setColor(calc.grayToBlack());
             }
         }
     }

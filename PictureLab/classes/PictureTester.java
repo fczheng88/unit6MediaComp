@@ -166,12 +166,10 @@ public class PictureTester
         canvas.cropAndCopy(orig, 25, 525, 125, 725, 0,0);//crop out a resizeable chunk
         canvas.scaleDownRemPix(0.75);//scale it down
         
-        
-        canvas.makeStatic(50);
         inter.cropAndCopy(canvas, 0,375,0,450,0,0);
         
         mod.copy(inter,0,0);
-        mod.posterize(4);
+        mod.makeStatic(50);//adds some color variation (removed by posterize in most cases)
         mod.mirrorVertical();
         canvas.copy(mod,0,0);
         
@@ -183,8 +181,9 @@ public class PictureTester
         
         mod.copy(inter,0,0);
         mod.grayscaleLum();
-        mod.posterize(8);
+        mod.posterize(2);
         mod.mirrorVerticalRightToLeft();
+        mod.grayToBlack();
         canvas.copy(mod,375,0);
         
         mod.copy(inter,0,0);
