@@ -113,7 +113,8 @@ public class PictureTester
         temple.explore();
         temple.mirrorSnowman();
         temple.explore();
-    }
+    }
+
 
     public static void testMirrorSeagull()
     {
@@ -153,41 +154,46 @@ public class PictureTester
         swan.scaleDownRemPix(0.9);
         swan.explore();
     }
-     public static void testScaleDownBoxing()
-    {
-        Picture swan = new Picture("swan.jpg");
-        swan.scaleDownBoxing(0.9);
-        swan.explore();
-    }
 
     /** Main method for testing.  Every class can have a main
      * method in Java */
     public static void main(String[] args)
     {
-        // uncomment a call here to run a test
-        // and comment out the ones you don't want
-        // to run
-        testZeroBlue();
-        testKeepOnlyBlue();
-        //testKeepOnlyRed();
-        //testKeepOnlyGreen();
-        testNegate();
-        testGrayscale();
-        //testFixUnderwater();
-        //testMirrorVertical();
-        //testMirrorTemple();
-        //testMirrorArms();
-        //testMirrorGull();
-        //testMirrorDiagonal();
-        //testCollage();
-        //testCopy();
-        //testEdgeDetection();
-        //testEdgeDetection2();
-        //testChromakey();
-        //testEncodeAndDecode();
-        //testGetCountRedOverValue(250);
-        //testSetRedToHalfValueInTopHalf();
-        //testClearBlueOverValue(200);
-        //testGetAverageForColumn(0);
+        Picture canvas = new Picture(750,900);
+        Picture orig = new Picture("space.jpg");
+        Picture inter = new Picture(375,450);//intermediate picture
+        Picture mod = new Picture(375,450);//modified picture
+        canvas.cropAndCopy(orig, 25, 525, 125, 725, 0,0);//crop out a resizeable chunk
+        canvas.scaleDownRemPix(0.75);//scale it down
+        
+        
+        canvas.makeStatic(50);
+        inter.cropAndCopy(canvas, 0,375,0,450,0,0);
+        
+        mod.copy(inter,0,0);
+        mod.posterize(4);
+        mod.mirrorVertical();
+        canvas.copy(mod,0,0);
+        
+        mod.copy(inter, 0,0);
+        mod.sepia();
+        mod.posterize(6);
+        mod.mirrorVerticalRightToLeft();
+        canvas.copy(mod,0,450);
+        
+        mod.copy(inter,0,0);
+        mod.grayscaleLum();
+        mod.posterize(8);
+        mod.mirrorVerticalRightToLeft();
+        canvas.copy(mod,375,0);
+        
+        mod.copy(inter,0,0);
+        mod.negate();
+        mod.posterize(8);
+        mod.mirrorVertical();
+        canvas.copy(mod,375,450);
+        
+        canvas.explore();
+        canvas.write("MyCollage.jpg");
     }
 }
